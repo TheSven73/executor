@@ -81,7 +81,7 @@ impl Executor {
     }
 
     // Poll all tasks on global executor
-    fn poll_tasks(&mut self) {
+    pub fn poll_tasks(&mut self) {
         for _ in 0..self.tasks.len() {
             let task = self.tasks.remove(0).unwrap();
             if task.is_pending() {
@@ -100,4 +100,8 @@ where
     T: Send + 'static,
 {
     DEFAULT_EXECUTOR.lock().run(Box::pin(future))
+}
+
+pub fn poll_tasks() {
+    DEFAULT_EXECUTOR.lock().poll_tasks();
 }
